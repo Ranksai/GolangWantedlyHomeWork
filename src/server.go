@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./Handler"
+	"GolangWantedlyHomeWork/src/Handler"
 	"github.com/gin-gonic/gin"
 )
 
