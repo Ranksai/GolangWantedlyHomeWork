@@ -10,4 +10,4 @@ COPY ./ /go/src/GolangWantedlyHomeWork/
 
 RUN go build -o server .
 
-CMD ["/go/src/github.com/Ranksai/GolangWantedlyHomeWork/src/server"]
+CMD ["/go/src/GolangWantedlyHomeWork/src/server"]
