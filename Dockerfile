@@ -4,9 +4,9 @@ EXPOSE 8080
 
 RUN go get github.com/gin-gonic/gin
 
-WORKDIR /go/src/github.com/Ranksai/GolangWantedlyHomeWork/src
+WORKDIR /go/src/GolangWantedlyHomeWork/src
 
-COPY ./ /go/src/github.com/Ranksai/GolangWantedlyHomeWork/
+COPY ./ /go/src/GolangWantedlyHomeWork/
 
 RUN go build -o server .
 
