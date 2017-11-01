@@ -8,5 +8,5 @@ import (
 func main() {
 	route := gin.Default()
 	route.GET("/", Handler.HalloHandler)
-	route.Run("localhost:8080")
+	route.Run(":8080")
 }
