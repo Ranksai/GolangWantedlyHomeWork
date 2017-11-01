@@ -1,12 +1,12 @@
 package main
 
 import (
-	"GolangWantedlyHomeWork/src/Handler"
+	"GolangWantedlyHomeWork/src/handler"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	route := gin.Default()
-	route.GET("/", Handler.HalloHandler)
-	route.Run("localhost:3000")
+	route.GET("/", handler.HalloHandler)
+	route.Run("localhost:8080")
 }

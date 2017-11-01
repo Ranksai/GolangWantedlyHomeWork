@@ -1,7 +1,10 @@
-package Handler
+package handler
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
 
 func HalloHandler(c *gin.Context)  {
-	c.JSON(200, gin.H{"message": "Hello, World!",})
+	c.JSON(http.StatusOK, gin.H{"message": "Hello, World!"})
 }
