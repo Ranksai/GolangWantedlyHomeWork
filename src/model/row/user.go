@@ -12,4 +12,8 @@ type wantedlyUser struct {
 	UpdatedAr time.Time `json:"updated_ar" xorm:"'updated_at'"`
 }
 
+func (wantedlyUser) TableName() string {
+	return "wantedlyusers"
+}
+
 type Users []wantedlyUser
