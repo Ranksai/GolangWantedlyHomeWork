@@ -7,7 +7,7 @@ import (
 )
 
 func NewXormHandler() *xorm.Engine {
-	url := "user=root host=localhost port=5432 dbname=wantedlyHomework sslmode=disable"
+	url := "user=postgres host=localhost port=5432 dbname=wantedlyhomework sslmode=disable"
 	engine, err := xorm.NewEngine("postgres", url)
 	if err != nil {
 		log.Error(err)

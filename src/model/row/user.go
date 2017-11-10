@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-type User struct {
+type wantedlyUser struct {
 	Id        int       `json:"id" xorm:"'id'"`
 	Name      string    `json:"name" xorm:"'name'"`
 	Email     string    `json:"email" xorm:"'email'"`
@@ -12,4 +12,4 @@ type User struct {
 	UpdatedAr time.Time `json:"updated_ar" xorm:"'updated_at'"`
 }
 
-type Users []User
+type Users []wantedlyUser
