@@ -21,15 +21,15 @@ func InitUserHandler(e *gin.Engine) {
 
 func FindUsers(c *gin.Context) {
 	session := Dao.NewXormHandler()
-	users := new(row.Users)
-	_, err := session.Get(users)
+	wantedlyUsers := new(row.WantedlyUsers)
+	_, err := session.Get(wantedlyUsers)
 	if err != nil {
 		log.Error(err)
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return
 
 	}
-	c.JSON(http.StatusOK, users)
+	c.JSON(http.StatusOK, wantedlyUsers)
 }
 
 func GetUser(c *gin.Context) {
