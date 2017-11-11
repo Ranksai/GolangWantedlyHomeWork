@@ -45,7 +45,7 @@ func GetUser(c *gin.Context) {
 	}
 	wantedlyUser.Id = id
 	has, err := session.ID(wantedlyUser.Id).Get(wantedlyUser)
-	if has {
+	if !has {
 		c.AbortWithStatus(http.StatusNoContent)
 		return
 	}
@@ -82,7 +82,7 @@ func PostUser(c *gin.Context) {
 	}
 	gotByNameWantedlyUser := new(entity.WantedlyUser)
 	has, err := session.Where("name=?", wantedlyUser.Name).Get(gotByNameWantedlyUser)
-	if has {
+	if !has {
 		c.AbortWithStatus(http.StatusNoContent)
 		return
 	}
