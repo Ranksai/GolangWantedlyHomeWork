@@ -86,8 +86,8 @@ func PostUser(c *gin.Context) {
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return
 	}
-	gotByNameWantedlyUser := new(entity.WantedlyUser)
-	has, err := session.Where("email=?", wantedlyUser.Email).Get(gotByNameWantedlyUser)
+	getByEmailWantedlyUser := new(entity.WantedlyUser)
+	has, err := session.Where("email=?", wantedlyUser.Email).Get(getByEmailWantedlyUser)
 	if !has {
 		c.AbortWithStatus(http.StatusNoContent)
 		return
@@ -97,11 +97,74 @@ func PostUser(c *gin.Context) {
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return
 	}
-	c.JSON(http.StatusCreated, gotByNameWantedlyUser)
+	c.JSON(http.StatusCreated, getByEmailWantedlyUser)
+}
+
+type updateUserParam struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
 }
 
 func PutUser(c *gin.Context) {
-
+	n := c.Param("id")
+	id, err := strconv.Atoi(n)
+	if err != nil {
+		log.Error(err)
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	param := new(updateUserParam)
+	if err := c.Bind(param); err != nil {
+		log.Error(err)
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+	session := Dao.NewXormHandler()
+	wantedlyUser := new(entity.WantedlyUser)
+	wantedlyUser.Id = id
+	has, err := session.Id(wantedlyUser.Id).Get(wantedlyUser)
+	if !has {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+	if err != nil {
+		log.Error(err)
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	if param.Name != "" && wantedlyUser.Name != param.Name {
+		wantedlyUser.Name = param.Name
+	}
+	if param.Email != "" && wantedlyUser.Email != param.Email {
+		getByEmailParamWantedlyUser := new(entity.WantedlyUser)
+		has, err = session.Where("email=?", param.Email).Get(getByEmailParamWantedlyUser)
+		if err != nil {
+			log.Error(err)
+			c.AbortWithStatus(http.StatusInternalServerError)
+			return
+		}
+		if !has {
+			wantedlyUser.Email = param.Email
+		}
+	}
+	_, err = session.ID(wantedlyUser.Id).Update(wantedlyUser)
+	if err != nil {
+		log.Error(err)
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	getByEmailWantedlyUser := new(entity.WantedlyUser)
+	has, err = session.Where("email=?", wantedlyUser.Email).Get(getByEmailWantedlyUser)
+	if !has {
+		c.AbortWithStatus(http.StatusNoContent)
+		return
+	}
+	if err != nil {
+		log.Error(err)
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	c.JSON(http.StatusCreated, getByEmailWantedlyUser)
 }
 
 func DeleteUser(c *gin.Context) {
