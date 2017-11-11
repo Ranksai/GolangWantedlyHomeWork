@@ -15,5 +15,3 @@ type WantedlyUser struct {
 func (WantedlyUser) TableName() string {
 	return "wantedlyusers"
 }
-
-//type WantedlyUsers []WantedlyUser
