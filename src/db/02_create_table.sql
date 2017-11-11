@@ -9,6 +9,13 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
+-- Name: postgres; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON DATABASE postgres IS 'default administrative connection database';
+
+
+--
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -24,22 +31,6 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 SET search_path = public, pg_catalog;
 
---
--- Name: set_update_time(); Type: FUNCTION; Schema: public; Owner: postgres
---
-
-CREATE FUNCTION set_update_time() RETURNS trigger
-    LANGUAGE plpgsql
-    AS $$
-  begin
-    new.updated_at := 'now';
-    return new;
-  end;
-$$;
-
-
-ALTER FUNCTION public.set_update_time() OWNER TO postgres;
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -47,8 +38,8 @@ SET default_with_oids = false;
 --
 -- Name: wantedlyusers; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
-
-CREATE TABLE wantedlyhomework.wantedlyusers (
+\c wantedlyhomework
+CREATE TABLE wantedlyusers (
     id integer NOT NULL,
     name character varying(255) NOT NULL,
     email character varying(255) NOT NULL,
@@ -79,20 +70,19 @@ ALTER TABLE public.wantedlyusers_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE wantedlyusers_id_seq OWNED BY wantedlyusers.id;
 
+
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY wantedlyusers ALTER COLUMN id SET DEFAULT nextval('wantedlyusers_id_seq'::regclass);
 
+
 --
 -- Data for Name: wantedlyusers; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY wantedlyusers (id, name, email, created_at, updated_at) FROM stdin;
-10	test	test@test	2017-11-11 17:19:32.324046	2017-11-11 17:19:32.324046
-2	test	hogehogehoghogehogeohgeoe@example.com	2017-11-11 17:34:18.915196	2017-11-11 17:34:18.915196
-4	ssss	hogeh@example.com	2017-11-11 17:39:35.760281	2017-11-11 17:39:35.760281
 \.
 
 
@@ -100,7 +90,7 @@ COPY wantedlyusers (id, name, email, created_at, updated_at) FROM stdin;
 -- Name: wantedlyusers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('wantedlyusers_id_seq', 4, true);
+SELECT pg_catalog.setval('wantedlyusers_id_seq', 1, false);
 
 
 --
@@ -118,12 +108,16 @@ ALTER TABLE ONLY wantedlyusers
 ALTER TABLE ONLY wantedlyusers
     ADD CONSTRAINT wantedlyusers_pkey PRIMARY KEY (id);
 
+create function set_update_time() returns opaque as '
+  begin
+    new.updated_at := ''now'';
+    return new;
+  end;
+' language 'plpgsql';
 
---
--- Name: update_tri; Type: TRIGGER; Schema: public; Owner: postgres
---
+create trigger update_tri before update on wantedlyusers  for each row
+  execute procedure set_update_time();
 
-CREATE TRIGGER update_tri BEFORE UPDATE ON wantedlyusers FOR EACH ROW EXECUTE PROCEDURE set_update_time();
 
 
 --
