@@ -23,8 +23,9 @@ func InitUserHandler(e *gin.Engine) {
 
 func FindUsers(c *gin.Context) {
 	session := Dao.NewXormHandler()
-	wantedlyUsers := new(entity.WantedlyUser)
-	_, err := session.Get(wantedlyUsers)
+	var wantedlyUsers entity.WantedlyUsers
+	wantedlyUsers = make(entity.WantedlyUsers, 0, 1)
+	err := session.Find(&wantedlyUsers)
 	if err != nil {
 		log.Error(err)
 		c.AbortWithStatus(http.StatusInternalServerError)
