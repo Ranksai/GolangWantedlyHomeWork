@@ -7,6 +7,8 @@ import (
 
 	"GolangWantedlyHomeWork/src/model/entity"
 
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/labstack/gommon/log"
 )
@@ -32,9 +34,17 @@ func FindUsers(c *gin.Context) {
 }
 
 func GetUser(c *gin.Context) {
+	n := c.Param("id")
 	session := Dao.NewXormHandler()
 	wantedlyUser := new(entity.WantedlyUser)
-	_, err := session.ID(wantedlyUser.Id).Get(wantedlyUser)
+	id, err := strconv.Atoi(n)
+	if err != nil {
+		log.Error(err)
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	wantedlyUser.Id = id
+	_, err = session.ID(wantedlyUser.Id).Get(wantedlyUser)
 	if err != nil {
 		log.Error(err)
 		c.AbortWithStatus(http.StatusInternalServerError)
@@ -43,8 +53,37 @@ func GetUser(c *gin.Context) {
 	c.JSON(http.StatusOK, wantedlyUser)
 }
 
-func PostUser(c *gin.Context) {
+type registerUserParam struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}
 
+func PostUser(c *gin.Context) {
+	param := new(registerUserParam)
+	if err := c.Bind(param); err != nil {
+		log.Error(err)
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+	session := Dao.NewXormHandler()
+	wantedlyUser := new(entity.WantedlyUser)
+	wantedlyUser.Name = param.Name
+	wantedlyUser.Email = param.Email
+
+	_, err := session.Insert(wantedlyUser)
+	if err != nil {
+		log.Error(err)
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	gotByNameWantedlyUser := new(entity.WantedlyUser)
+	_, err = session.Where("name=?", wantedlyUser.Name).Get(gotByNameWantedlyUser)
+	if err != nil {
+		log.Error(err)
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	c.JSON(http.StatusCreated, gotByNameWantedlyUser)
 }
 
 func PutUser(c *gin.Context) {
@@ -52,5 +91,21 @@ func PutUser(c *gin.Context) {
 }
 
 func DeleteUser(c *gin.Context) {
-
+	n := c.Param("id")
+	id, err := strconv.Atoi(n)
+	if err != nil {
+		log.Error(err)
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	session := Dao.NewXormHandler()
+	wantedlyUser := new(entity.WantedlyUser)
+	wantedlyUser.Id = id
+	_, err = session.ID(wantedlyUser.Id).Delete(wantedlyUser)
+	if err != nil {
+		log.Error(err)
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	c.JSON(http.StatusNoContent, nil)
 }
