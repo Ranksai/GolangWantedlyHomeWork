@@ -44,7 +44,11 @@ func GetUser(c *gin.Context) {
 		return
 	}
 	wantedlyUser.Id = id
-	_, err = session.ID(wantedlyUser.Id).Get(wantedlyUser)
+	has, err := session.ID(wantedlyUser.Id).Get(wantedlyUser)
+	if has {
+		c.AbortWithStatus(http.StatusNoContent)
+		return
+	}
 	if err != nil {
 		log.Error(err)
 		c.AbortWithStatus(http.StatusInternalServerError)
@@ -77,7 +81,11 @@ func PostUser(c *gin.Context) {
 		return
 	}
 	gotByNameWantedlyUser := new(entity.WantedlyUser)
-	_, err = session.Where("name=?", wantedlyUser.Name).Get(gotByNameWantedlyUser)
+	has, err := session.Where("name=?", wantedlyUser.Name).Get(gotByNameWantedlyUser)
+	if has {
+		c.AbortWithStatus(http.StatusNoContent)
+		return
+	}
 	if err != nil {
 		log.Error(err)
 		c.AbortWithStatus(http.StatusInternalServerError)
