@@ -4,10 +4,16 @@ EXPOSE 8080
 
 RUN go get github.com/gin-gonic/gin
 
-WORKDIR /go/src/GolangWantedlyHomeWork/src
+RUN go get github.com/go-xorm/xorm
 
-COPY ./ /go/src/GolangWantedlyHomeWork/
+RUN go get github.com/lib/pq
+
+ADD ../GolangWantedlyHomeWork /go/src
+
+WORKDIR /go/src/github.com/Ranksai/GolangWantedlyHomeWork/src
+
+COPY ./ /go/src/github.com/Ranksai/GolangWantedlyHomeWork/src
 
 RUN go build -o server .
 
-CMD ["/go/src/GolangWantedlyHomeWork/src/server"]
+CMD ["/go/src/github.com/Ranksai/GolangWantedlyHomeWork/src/server"]
