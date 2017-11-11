@@ -8,6 +8,8 @@ RUN go get github.com/go-xorm/xorm
 
 RUN go get github.com/lib/pq
 
+RUN go get github.com/labstack/gommon/log
+
 WORKDIR /go/src/GolangWantedlyHomeWork/src
 
 COPY ./ /go/src/GolangWantedlyHomeWork/
