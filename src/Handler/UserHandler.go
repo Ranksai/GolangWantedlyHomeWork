@@ -74,7 +74,12 @@ func PostUser(c *gin.Context) {
 	wantedlyUser.Name = param.Name
 	wantedlyUser.Email = param.Email
 
-	_, err := session.Insert(wantedlyUser)
+	insert, err := session.Insert(wantedlyUser)
+	if insert == int64(0) {
+		log.Error(err)
+		c.AbortWithStatus(http.StatusNoContent)
+		return
+	}
 	if err != nil {
 		log.Error(err)
 		c.AbortWithStatus(http.StatusInternalServerError)
