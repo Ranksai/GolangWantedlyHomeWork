@@ -16,4 +16,4 @@ func (WantedlyUser) TableName() string {
 	return "wantedlyusers"
 }
 
-type WantedlyUsers []WantedlyUser
+//type WantedlyUsers []WantedlyUser
