@@ -1,0 +1,21 @@
+version: '2'
+services:
+  postgres:
+   image: postgres
+   volumes:
+      - ./db:/docker-entrypoint-initdb.d
+   ports:
+      - "5432:5432"
+  go:
+    build:
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+    ports:
+      - "8080:8080"
