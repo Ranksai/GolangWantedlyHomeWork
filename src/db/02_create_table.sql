@@ -48,7 +48,7 @@ SET default_with_oids = false;
 -- Name: wantedlyusers; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE wantedlyusers (
+CREATE TABLE wantedlyhomework.wantedlyusers (
     id integer NOT NULL,
     name character varying(255) NOT NULL,
     email character varying(255) NOT NULL,
