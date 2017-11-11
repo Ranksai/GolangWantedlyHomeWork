@@ -3,11 +3,12 @@ services:
   postgres:
    image: postgres
    volumes:
-      - ./db:/docker-entrypoint-initdb.d
+      - ./src/db:/docker-entrypoint-initdb.d
    ports:
       - "5432:5432"
   go:
     build:
+      context: .
       dockerfile: Dockerfile
     depends_on:
       - postgres
