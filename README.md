@@ -7,9 +7,12 @@ TODO: 書く
 ## 動作環境
 
 * OS
-   * CentOS7.4
+	* CentOS7.4
 * docker
 	* 17.09.0.ce-1.el7.centos
+* docker-compose
+	* 1.17.1
+
 
 
 ## 実装内容
@@ -29,3 +32,13 @@ TODO: 書く
 | /users | POST | user を追加
 | /users/:id | PUT | 指定した id の user を更新
 | /users/:id | DELETE | 指定した id の user を削除
+
+## 使用例
+
+docker-compose が使用できるマシンで以下のコマンドを実行してください。
+
+"""
+git  clone https://github.com/Ranksai/GolangWantedlyHomeWork.git
+cd GolangWantedlyHomeWork
+docker-compose up -d
+"""
