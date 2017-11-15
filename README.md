@@ -22,7 +22,7 @@ TODO: 書く
 ### API
 
 | path | method | description |
-|:-----------:|:------------:|:------------:|
+|:-----------|:------------:|:------------:|
 | / | GET | Hello World!! と json で返す
 | /users | GET | user の一覧を表示
 | /users/:id | GET | 指定した id の user を表示
