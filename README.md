@@ -1,4 +1,3 @@
-TODO: 書く
 # GolangWantedlyHomeWork
 
 ## Wantedly の宿題リポジトリ
