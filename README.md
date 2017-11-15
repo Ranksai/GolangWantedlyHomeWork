@@ -38,7 +38,7 @@ TODO: 書く
 docker-compose が使用できるマシンで以下のコマンドを実行してください。
 
 ```
-git  clone https://github.com/Ranksai/GolangWantedlyHomeWork.git
+git clone https://github.com/Ranksai/GolangWantedlyHomeWork.git
 cd GolangWantedlyHomeWork
 docker-compose up -d
 ```
