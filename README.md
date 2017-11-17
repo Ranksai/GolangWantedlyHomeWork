@@ -41,3 +41,7 @@ git clone https://github.com/Ranksai/GolangWantedlyHomeWork.git
 cd GolangWantedlyHomeWork
 docker-compose up -d
 ```
+
+## TODO
+* ちゃんと model でメソッド定義して handler で使う。
+	* handler でメソッド定義しない。
